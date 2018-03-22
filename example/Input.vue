@@ -1,7 +1,8 @@
 <template>
   <div class="container">
-    <input autofocus v-model="value" type="text" v-on-modify="onModify">
-    <p>你刚刚修改了 {{count}} 次。</p>
+    <input autofocus v-model="value" type="text" data-label="我是输入框" v-sa-track v-on-focus="onFocus" v-on-blur="onBlur">
+    <p v-if="isFocused">你在输入框中。</p>
+    <p v-else>你已离开输入框，刚才停留了 {{ stayTime }} 秒。</p>
     <span class="icon-delete" @click="$emit('remove')"></span>
   </div>
 </template>
@@ -11,13 +12,18 @@ export default {
   data() {
     return {
       value: '',
-      count: 0
+      isFocused: false,
+      stayTime: 0 // 秒
     }
   },
 
   methods: {
-    onModify() {
-      this.count++
+    onFocus() {
+      this.isFocused = true
+    },
+    onBlur({ stayTime }) {
+      this.isFocused = false
+      this.stayTime = stayTime
     }
   }
 }
@@ -60,13 +66,12 @@ input:focus {
   display: inline-block;
   width: 20px;
   height: 20px;
-  background: url("./assets/delete.svg") center/contain no-repeat;
+  background: url('./assets/delete.svg') center/contain no-repeat;
   transition: all 0.25s;
 }
 
 .icon-delete:hover {
-  background: url("./assets/delete-green.svg") center/contain no-repeat;
+  background: url('./assets/delete-green.svg') center/contain no-repeat;
   cursor: pointer;
 }
 </style>
-

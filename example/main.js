@@ -15,7 +15,13 @@ if (
   })
 }
 
-Vue.use(VueInputBinding)
+Vue.use(VueInputBinding, {
+  sa: {
+    track(...args) {
+      console.log('[sa.track]', ...args)
+    }
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
