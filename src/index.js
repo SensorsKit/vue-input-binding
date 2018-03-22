@@ -1,46 +1,19 @@
+import * as saTrackDirective from './sa-track'
+import * as onFocusDirective from './on-focus'
+import * as onBlurDirective from './on-blur'
+
 const VueInputBinding = {}
-const registeredHandlers = []
-
-const log = {
-  e(...args) {
-    console.error('[vue-input-binding]', ...args)
-  }
-}
-const on = (el, eventName, callback) => {
-  el.addEventListener(eventName, callback, false)
-  return {
-    el,
-    destroy: () => el.removeEventListener(eventName, callback, false)
-  }
-}
-
-const bind = (el, binding, vnode) => {
-}
-
-const unbind = el => {
-}
-
-const update = (el, binding) => {
-}
 
 VueInputBinding.install = function (Vue, options) {
-  Vue.directive('on-focus', {
-    bind,
-    update,
-    unbind
-  })
+  if (options.sa) {
+    saTrackDirective.setSDK(options.sa)
+  }
 
-  Vue.directive('on-blur', {
-    bind,
-    update,
-    unbind
-  })
+  Vue.directive('on-focus', onFocusDirective)
 
-  Vue.directive('sa-track', {
-    bind,
-    update,
-    unbind
-  })
+  Vue.directive('on-blur', onBlurDirective)
+
+  Vue.directive('sa-track', saTrackDirective)
 }
 
 export default VueInputBinding
