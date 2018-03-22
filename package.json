@@ -1,0 +1,89 @@
+{
+  "name": "@sensorskit/vue-input-binding",
+  "description": "vue custom directive for focus and blur binding",
+  "version": "0.0.1",
+  "author": "newraina <newraina@users.noreply.github.com>",
+  "main": "lib/vue-input-binding.js",
+  "repository": "github:SensorsKit/vue-input-binding",
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.dev.js --open --hot",
+    "build": "webpack --config webpack.build.js",
+    "build:example": "webpack --config webpack.example.js",
+    "prepublishOnly": "npm run build",
+    "deploy": "npm run build:example && gh-pages -d dist",
+    "test": "jest",
+    "lint": "eslint **/*.js",
+    "commit": "git-cz",
+    "precommit": "lint-staged"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest",
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    },
+    "setupFiles": [
+      "./tool/mock.js"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "jsxBracketSameLine": true
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.12",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "^22.4.1",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "commitizen": "^2.9.6",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^4.19.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "file-loader": "^1.1.4",
+    "gh-pages": "^1.1.0",
+    "html-webpack-plugin": "webpack-contrib/html-webpack-plugin",
+    "husky": "^0.14.3",
+    "jest": "^22.4.2",
+    "lint-staged": "^7.0.0",
+    "vconsole": "^3.1.0",
+    "vue": "^2.5.11",
+    "vue-jest": "^2.1.1",
+    "vue-loader": "^14.2.1",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
+  }
+}
