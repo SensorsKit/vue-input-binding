@@ -1,7 +1,7 @@
 {
   "name": "@sensorskit/vue-input-binding",
   "description": "vue custom directive for focus and blur binding",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "newraina <newraina@users.noreply.github.com>",
   "main": "lib/vue-input-binding.js",
   "repository": "github:SensorsKit/vue-input-binding",
