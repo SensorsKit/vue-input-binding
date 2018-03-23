@@ -2,7 +2,7 @@
   <div class="container">
     <input autofocus v-model="value" type="text" data-label="我是输入框" v-sa-track v-on-focus="onFocus" v-on-blur="onBlur">
     <p v-if="isFocused">你在输入框中。</p>
-    <p v-else>你已离开输入框，刚才停留了 {{ stayTime }} 秒。</p>
+    <p v-else>你已离开输入框，刚才停留了 {{ stayMSTime }} 毫秒。</p>
     <span class="icon-delete" @click="$emit('remove')"></span>
   </div>
 </template>
@@ -13,7 +13,8 @@ export default {
     return {
       value: '',
       isFocused: false,
-      stayTime: 0 // 秒
+      stayTime: 0, // 秒
+      stayMSTime: 0 // 毫秒
     }
   },
 
@@ -21,9 +22,10 @@ export default {
     onFocus() {
       this.isFocused = true
     },
-    onBlur({ stayTime }) {
+    onBlur({ stayTime, stayMSTime }) {
       this.isFocused = false
       this.stayTime = stayTime
+      this.stayMSTime = stayMSTime
     }
   }
 }
