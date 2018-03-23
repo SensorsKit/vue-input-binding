@@ -10,7 +10,7 @@
 > |    事件    | 属性 |
 > | ---------- | --- |
 > | InputFocus |  InputLabel? |
-> | InputBlur  |  InputLabel?, StayTime |
+> | InputBlur  |  InputLabel?, StayTime, StayMSTime |
 
 ## 使用
 
