@@ -1,12 +1,18 @@
-import { log, on, off } from './util'
+import { log, on, off, getInputFromEl } from './util'
 
 const scope = 'sa-track'
 let sdk = null
 
 export const setSDK = ref => (sdk = ref)
 
-export const bind = el => {
+export const bind = (el, binding, vnode) => {
   log.d('[sa-track] - bind')
+
+  el = getInputFromEl(el)
+
+  if (!el) {
+    return log.e('绑定的元素内未找到 input 标签！')
+  }
 
   if (!sdk) {
     return log.e('未指定神策 SDK！')
@@ -16,6 +22,10 @@ export const bind = el => {
   let leaveTime = enterTime
 
   const porperties = {}
+
+  if (vnode.componentInstance && vnode.componentInstance.title) {
+    porperties.InputLabel = vnode.componentInstance.title
+  }
 
   if (el.dataset.label) {
     porperties.InputLabel = el.dataset.label
@@ -32,6 +42,10 @@ export const bind = el => {
     const stayTime = Math.floor(stayMSTime / 1000)
     const porperties = { StayTime: stayTime, StayMSTime: stayMSTime }
 
+    if (vnode.componentInstance && vnode.componentInstance.title) {
+      porperties.InputLabel = vnode.componentInstance.title
+    }
+
     if (el.dataset.label) {
       porperties.InputLabel = el.dataset.label
     }
@@ -46,5 +60,6 @@ export const update = () => {
 
 export const unbind = el => {
   log.d('[sa-track] - unbind')
+  el = getInputFromEl(el)
   off(el, scope)
 }

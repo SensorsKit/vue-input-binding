@@ -1,9 +1,16 @@
-import { log, on, off, saveElInfo } from './util'
+import { log, on, off, saveElInfo, getInputFromEl } from './util'
 
 const scope = 'on-focus'
 
-export const bind = (el, binding) => {
+export const bind = (el, binding, vnode) => {
   log.d('[on-focus] - bind')
+
+  el = getInputFromEl(el)
+
+  if (!el) {
+    return log.e('绑定的元素内未找到 input 标签！')
+  }
+
   unbind(el)
 
   const onFocus = binding.value
@@ -15,6 +22,10 @@ export const bind = (el, binding) => {
   let enterTime = Date.now()
 
   const porperties = {}
+
+  if (vnode.componentInstance && vnode.componentInstance.title) {
+    porperties.InputLabel = vnode.componentInstance.title
+  }
 
   if (el.dataset.label) {
     porperties.InputLabel = el.dataset.label
@@ -38,5 +49,6 @@ export const update = (el, binding) => {
 
 export const unbind = el => {
   log.d('[on-focus] - unbind')
+  el = getInputFromEl(el)
   off(el, scope)
 }
