@@ -61,11 +61,12 @@ export default {
       sa.track('InputFocus', { ...your custom properties })
     },
 
-    // onBlur 接收一个 Object 参数，里面包含距离上次聚焦的停留时间：StayTime
-    onBlur({ StayTime }) {
+    // onBlur 接收一个 Object 参数，里面包含距离上次聚焦的停留时间：StayTime, StayMSTime
+    onBlur({ StayTime, StayMSTime }) {
       sa.track('InputBlur', {
         ...your custom properties,
-        StayTime
+        StayMSTime, // 毫秒
+        StayTime // 秒
       })
     }
   }
