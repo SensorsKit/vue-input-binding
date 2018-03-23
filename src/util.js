@@ -1,14 +1,52 @@
 const registeredHandlers = []
+let elInfos = []
+let debug = false
 
-export const on = (el, eventName, callback) => {
+export const saveElInfo = (el, info) => {
+  if (elInfos.filter(o => o.el === el).length) {
+    elInfos = elInfos.map(o => {
+      if (o.el === el) {
+        return {
+          el,
+          info: {
+            ...el.info,
+            ...info
+          }
+        }
+      }
+      return o
+    })
+    return
+  }
+  elInfos.push({
+    el,
+    info
+  })
+}
+
+export const getElinfo = (el, key) => {
+  const matchedEls = elInfos.filter(o => o.el === el)
+  if (!matchedEls.length) {
+    return log.e('找不到元素信息：', el, key)
+  }
+
+  if (key) {
+    return matchedEls[0].info[key]
+  }
+
+  return matchedEls[0]
+}
+
+export const on = (el, eventName, callback, scope) => {
   el.addEventListener(eventName, callback, false)
   registeredHandlers.push({
     el,
+    scope,
     destroy: () => el.removeEventListener(eventName, callback, false)
   })
 }
 
-export const off = el => {
+export const off = (el, scope) => {
   if (!registeredHandlers.length) {
     return
   }
@@ -18,7 +56,7 @@ export const off = el => {
   while (index >= 0) {
     const handler = registeredHandlers[index]
 
-    if (handler.el === el) {
+    if (handler.el === el && handler.scope === scope) {
       handler.destroy()
       registeredHandlers.splice(index, 1)
     }
@@ -28,13 +66,19 @@ export const off = el => {
 }
 
 export const log = {
+  setDebugMode(flag) {
+    debug = flag
+  },
+
   e(...args) {
     console.error('[vue-input-binding]', ...args)
   },
   d(...args) {
-    if (process.env.NODE_ENV === 'production') {
+    if (!debug) {
+      console.debug(debug)
       return
     }
+
     console.debug('[vue-input-binding]', ...args)
   }
 }

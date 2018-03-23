@@ -1,12 +1,13 @@
 import { log, on, off } from './util'
 
+const scope = 'sa-track'
 let sdk = null
 
-export const setSDK = (ref) => {
-  sdk = ref
-}
+export const setSDK = ref => (sdk = ref)
 
-export const bind = (el, binding, vnode) => {
+export const bind = el => {
+  log.d('[sa-track] - bind')
+
   if (!sdk) {
     return log.e('未指定神策 SDK！')
   }
@@ -23,7 +24,7 @@ export const bind = (el, binding, vnode) => {
   on(el, 'focus', () => {
     enterTime = Date.now()
     sdk.track('InputFocus', porperties)
-  })
+  }, scope)
 
   on(el, 'blur', () => {
     leaveTime = Date.now()
@@ -36,12 +37,14 @@ export const bind = (el, binding, vnode) => {
     }
 
     sdk.track('InputBlur', porperties)
-  })
+  }, scope)
 }
 
-export const update = (el, binding, vnode) => {
+export const update = () => {
+  log.d('[sa-track] - update')
 }
 
-export const unbind = (el, binding, vnode) => {
-  off(el)
+export const unbind = el => {
+  log.d('[sa-track] - unbind')
+  off(el, scope)
 }
