@@ -7,11 +7,11 @@ import { version } from '../package.json'
 const VueInputBinding = { version }
 
 VueInputBinding.install = function (Vue, options) {
-  if (options.sa) {
+  if (options && options.sa) {
     saTrackDirective.setSDK(options.sa)
   }
 
-  if (options.debug) {
+  if (options && options.debug) {
     log.setDebugMode(true)
   }
 
