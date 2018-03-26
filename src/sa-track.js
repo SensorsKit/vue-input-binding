@@ -21,37 +21,47 @@ export const bind = (el, binding, vnode) => {
   let enterTime = Date.now()
   let leaveTime = enterTime
 
-  const porperties = {}
+  const properties = {}
 
   if (vnode.componentInstance && vnode.componentInstance.title) {
-    porperties.InputLabel = vnode.componentInstance.title
+    properties.InputLabel = vnode.componentInstance.title
   }
 
   if (el.dataset.label) {
-    porperties.InputLabel = el.dataset.label
+    properties.InputLabel = el.dataset.label
   }
 
-  on(el, 'focus', () => {
-    enterTime = Date.now()
-    sdk.track('InputFocus', porperties)
-  }, scope)
+  on(
+    el,
+    'focus',
+    () => {
+      enterTime = Date.now()
+      sdk.track('InputFocus', properties)
+    },
+    scope
+  )
 
-  on(el, 'blur', () => {
-    leaveTime = Date.now()
-    const stayMSTime = leaveTime - enterTime
-    const stayTime = Math.floor(stayMSTime / 1000)
-    const porperties = { StayTime: stayTime, StayMSTime: stayMSTime }
+  on(
+    el,
+    'blur',
+    () => {
+      leaveTime = Date.now()
+      const stayMSTime = leaveTime - enterTime
+      const stayTime = Math.floor(stayMSTime / 1000)
+      const properties = { StayTime: stayTime, StayMSTime: stayMSTime }
 
-    if (vnode.componentInstance && vnode.componentInstance.title) {
-      porperties.InputLabel = vnode.componentInstance.title
-    }
+      if (vnode.componentInstance && vnode.componentInstance.title) {
+        properties.InputLabel = vnode.componentInstance.title
+      }
 
-    if (el.dataset.label) {
-      porperties.InputLabel = el.dataset.label
-    }
+      if (el.dataset.label) {
+        properties.InputLabel = el.dataset.label
+      }
 
-    sdk.track('InputBlur', porperties)
-  }, scope)
+      sdk.track('InputBlur', properties)
+    },
+    scope
+  )
 }
 
 export const update = () => {

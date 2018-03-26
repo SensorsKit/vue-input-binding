@@ -19,28 +19,33 @@ export const bind = (el, binding, vnode) => {
     return log.e('on-blur 指令需要传入一个函数！')
   }
 
-  on(el, 'blur', () => {
-    const leaveTime = Date.now()
-    const enterTime = getElinfo(el, 'enterTime')
+  on(
+    el,
+    'blur',
+    () => {
+      const leaveTime = Date.now()
+      const enterTime = getElinfo(el, 'enterTime')
 
-    if (!enterTime) {
-      log.e('元素没有取到聚焦时间')
-    }
+      if (!enterTime) {
+        log.e('元素没有取到聚焦时间')
+      }
 
-    const stayMSTime = leaveTime - enterTime
-    const stayTime = Math.floor(stayMSTime / 1000)
-    const porperties = { stayTime, stayMSTime }
+      const stayMSTime = leaveTime - enterTime
+      const stayTime = Math.floor(stayMSTime / 1000)
+      const properties = { stayTime, stayMSTime }
 
-    if (vnode.componentInstance && vnode.componentInstance.title) {
-      porperties.InputLabel = vnode.componentInstance.title
-    }
+      if (vnode.componentInstance && vnode.componentInstance.title) {
+        properties.InputLabel = vnode.componentInstance.title
+      }
 
-    if (el.dataset.label) {
-      porperties.InputLabel = el.dataset.label
-    }
+      if (el.dataset.label) {
+        properties.InputLabel = el.dataset.label
+      }
 
-    onBlur(porperties)
-  }, scope)
+      onBlur(properties)
+    },
+    scope
+  )
 }
 
 export const update = (el, binding) => {

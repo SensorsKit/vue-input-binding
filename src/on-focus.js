@@ -21,21 +21,26 @@ export const bind = (el, binding, vnode) => {
 
   let enterTime = Date.now()
 
-  const porperties = {}
+  const properties = {}
 
   if (vnode.componentInstance && vnode.componentInstance.title) {
-    porperties.InputLabel = vnode.componentInstance.title
+    properties.InputLabel = vnode.componentInstance.title
   }
 
   if (el.dataset.label) {
-    porperties.InputLabel = el.dataset.label
+    properties.InputLabel = el.dataset.label
   }
 
-  on(el, 'focus', () => {
-    enterTime = Date.now()
-    saveElInfo(el, { enterTime })
-    onFocus(porperties)
-  }, scope)
+  on(
+    el,
+    'focus',
+    () => {
+      enterTime = Date.now()
+      saveElInfo(el, { enterTime })
+      onFocus(properties)
+    },
+    scope
+  )
 }
 
 export const update = (el, binding) => {
